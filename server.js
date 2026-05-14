@@ -1,33 +1,33 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const path = require("path");
 
 dotenv.config();
-
 const app = express();
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(express.static("public"));
-
 app.set("view engine", "ejs");
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.log(err));
-
 const movieRoutes = require("./routes/movieRoutes");
+console.log(process.env.MONGO_URI);
 
-app.use("/movies", movieRoutes);
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
 
-app.get("/", (req, res) => {
-    res.render("index");
-});
+    console.log("MongoDB connected");
+    app.use("/movies", movieRoutes);
+    app.get("/", (req, res) => {
+        res.render("index");
+    });
 
-const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+})
+.catch(err => {
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log("MongoDB CONNECTION ERROR:");
+    console.log(err);
 });
