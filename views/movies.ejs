@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Reviews</title>
+
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <h1>Movie Reviews</h1>
+
+    <a href="/movies/add">Add Movie</a>
+
+    <br><br>
+    <table border="solid">
+
+        <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+                <th>Review</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% movies.forEach(movie => { %>
+                <tr>
+                    <td>
+                        <% if (movie.poster) { %>
+                            <img
+                                src="<%= movie.poster %>"
+                                alt="Movie Poster"
+                                width="120"
+                            >
+                        <% } else { %>
+                            No Poster
+                        <% } %>
+                    </td>
+                    <td>
+                        <%= movie.title %>
+                    </td>
+                    <td>
+                        <%= movie.review %>
+                    </td>
+                    <td>
+                        <%= movie.rating %>/10
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+        
+    </table>
+</body>
+</html>
